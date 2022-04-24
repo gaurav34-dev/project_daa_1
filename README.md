@@ -4,40 +4,37 @@
 
 https://www.youtube.com/watch?v=QMiCNJofJUk
 
-Image quilting is a technique of generating new images 
-by stitching together patches of existing images.
+Image quilting is a technique for stitching together portions of existing images to create new images.
 It has applications of 
 
-1) Texture synthesis, generating arbitrarily large textures from small real-world samples and 
+1) Texture synthesis is the process of producing big textures from small real-world data.
 
 
->The method
-works directly on the images and does not require 3D information.
+>The approach works with photos directly and does not require 3D data.
 
-For more information, consult the original paper at https://people.eecs.berkeley.edu/~efros/research/quilting.html
+Consult the original work at https://people.eecs.berkeley.edu/efros/research/quilting.html for further information.
+All images in this readme are from the original SIGGRAPH '01 paper or presentation.
 
-All images in this readme come from the original paper or presentation at SIGGRAPH '01.
-
-In this repository, we will be implementing the paper using Python and NumPy.
+We'll use Python and NumPy to implement the paper in this repository.
 
 ## Texture Synthesis
 
-The algorithm starts with an input image and a block size:
+An input image and a block size are used to start the process:
 
 ![input block](input.png)
 
-We then define a minimum cost path between the overlap of two blocks:
+Then, between the overlap of two blocks, we design a minimum cost path:
 
 <img src="slide.png" width=500 />
 
-We then build up a synthesized image by tiling small blocks of the input image.
+Then, by tiling small chunks of the input image, we create a synthesized image.
 
 ![build](build.png)
 
-(a) Here, we just randomly choose blocks
+(a) We basically pick blocks at random here.
 
-(b) Here we pick blocks that have the least overlap error
+(b) Here, we select blocks with the least amount of overlap error.
 
-(c) We do everything in (c) but also cut along the minimum error boundary.
+(c) We follow the same steps as in (c), but we also cut along the minimum error border.
 
 
