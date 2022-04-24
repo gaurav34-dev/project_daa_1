@@ -1,6 +1,6 @@
 # Image Quilting for Texture Synthesis and Transfer
 
-![Demo](abstract_screenshot.PNG)
+
 
 https://www.youtube.com/watch?v=QMiCNJofJUk
 
