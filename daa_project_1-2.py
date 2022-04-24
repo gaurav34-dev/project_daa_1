@@ -177,7 +177,7 @@ def quiltSize(texture, patchLength, shape, mode="cut"):
 # In[8]:
 
 
-s = "https://raw.githubusercontent.com/axu2/image-quilting/master/"
+s = "https://raw.githubusercontent.com/gbaser54/project_daa_1/master/"
 
 texture = io.imread(s + "test.png")
 io.imshow(texture)
