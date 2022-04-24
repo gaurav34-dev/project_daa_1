@@ -1,4 +1,4 @@
-# Image Quilting for Texture Synthesis and Transfer
+# Image Quilting for Texture Synthesis 
 
 
 
