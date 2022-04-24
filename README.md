@@ -10,7 +10,6 @@ It has applications of
 
 1) Texture synthesis, generating arbitrarily large textures from small real-world samples and 
 
-2) Texture transfer, re-rendering an image in the style of another.
 
 >The method
 works directly on the images and does not require 3D information.
@@ -41,8 +40,4 @@ We then build up a synthesized image by tiling small blocks of the input image.
 
 (c) We do everything in (c) but also cut along the minimum error boundary.
 
-## Texture Transfer
 
->[Here] just add another constraint when sampling: similarity to underlying image at that spot
-
-![half](half.png)
