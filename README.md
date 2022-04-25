@@ -13,7 +13,7 @@ It has applications of
 >The approach works with photos directly and does not require 3D data.
 
 Consult the original work at https://people.eecs.berkeley.edu/efros/research/quilting.html for further information.
-All images in this readme are from the original SIGGRAPH '01 paper or presentation.
+
 
 We'll use Python and NumPy to implement the paper in this repository.
 
