@@ -91,22 +91,22 @@ def minCutPath2(errors):
 
     cumError = errors[0].copy()
     paths = np.zeros_like(errors, dtype=int)    
-
-    for i in range(1, len(errors)):
+    i=0
+    while i!=(len(errors)):
         M = cumError
         L = np.roll(M, 1)
         R = np.roll(M, -1)
-
         # optimize with np.choose?
         cumError = np.min((L, M, R), axis=0) + errors[i]
         paths[i] = np.argmin((L, M, R), axis=0)
-    
+        i=i+1
     paths -= 1
     
     minCutPath = [np.argmin(cumError)]
-    for i in reversed(range(1, len(errors))):
+    i=1
+    while i!=(len(errors)):
         minCutPath.append(minCutPath[-1] + paths[i][minCutPath[-1]])
-    
+        i=i+1
     return map(lambda x: x - 1, reversed(minCutPath))
 
 
@@ -142,9 +142,10 @@ def quilt(texture, patchLength, numPatches, mode="cut", sequence=False):
     w = (numPatchesWide * patchLength) - (numPatchesWide - 1) * overlap
 
     res = np.zeros((h, w, texture.shape[2]))
-
-    for i in range(numPatchesHigh):
-        for j in range(numPatchesWide):
+    i=0
+    while i!=(numPatchesHigh):
+        j=0
+        while j!=(numPatchesWide):
             y = i * (patchLength - overlap)
             x = j * (patchLength - overlap)
 
@@ -161,7 +162,8 @@ def quilt(texture, patchLength, numPatches, mode="cut", sequence=False):
             if sequence:
                 io.imshow(res)
                 io.show()
-      
+            j=j+1
+        i=i+1
     return res
 
 
