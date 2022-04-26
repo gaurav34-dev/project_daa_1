@@ -1,9 +1,5 @@
 # Image Quilting for Texture Synthesis 
 
-
-
-https://www.youtube.com/watch?v=QMiCNJofJUk
-
 Image quilting is a technique for stitching together portions of existing images to create new images.
 It has applications of 
 
@@ -34,4 +30,4 @@ Then, by tiling small chunks of the input image, we create a synthesized image.
 
 (c) We follow the same steps as in (c), but we also cut along the minimum error border.
 
-
+reference-https://www.youtube.com/watch?v=QMiCNJofJUk
