@@ -12,10 +12,7 @@ It has applications of
 
 >The approach works with photos directly and does not require 3D data.
 
-Consult the original work at https://people.eecs.berkeley.edu/efros/research/quilting.html for further information.
-
-
-We'll use Python and NumPy to implement the paper in this repository.
+We'll use Python and NumPy to implement texture synthesis in this repository.
 
 ## Texture Synthesis
 
