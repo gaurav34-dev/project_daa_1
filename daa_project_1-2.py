@@ -1,12 +1,6 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[3]:
-
-
-get_ipython().run_line_magic('pip', 'install scikit-image')
-get_ipython().run_line_magic('pip', 'install skimage')
-get_ipython().run_line_magic('pip', 'install ssl')
+%pip install scikit-image
+%pip install skimage
+%pip install ssl
 import ssl
 ssl._create_default_https_context = ssl._create_unverified_context
 import numpy as np
@@ -15,7 +9,7 @@ from skimage import io, util
 import heapq
 
 
-def randomPatch(texture, patchLength):
+def randomPatch_1(texture, patchLength):
     h, w, _ = texture.shape
     i = np.random.randint(h - patchLength)
     j = np.random.randint(w - patchLength)
@@ -23,24 +17,24 @@ def randomPatch(texture, patchLength):
     return texture[i:i+patchLength, j:j+patchLength]
 
 
-def L2OverlapDiff(patch, patchLength, overlap, res, y, x):
+def L2OverlapDiff_1(patch, patchLength, overlap, res, y, x):
     error = 0
 
     if x > 0:
         left = patch[:, :overlap] - res[y:y+patchLength, x:x+overlap]
-        error += np.sum(left**2)
+        error = error + np.sum(left**2)
     if y > 0:
         up   = patch[:overlap, :] - res[y:y+overlap, x:x+patchLength]
-        error += np.sum(up**2)
+        error = error + np.sum(up**2)
 
     if x > 0 and y > 0:
         corner = patch[:overlap, :overlap] - res[y:y+overlap, x:x+overlap]
-        error -= np.sum(corner**2)
+        error = error - np.sum(corner**2)
 
     return error
  
 
-def randomBestPatch(texture, patchLength, overlap, res, y, x):
+def randomBestPatch_1(texture, patchLength, overlap, res, y, x):
     h, w, _ = texture.shape
     errors = np.zeros((h - patchLength, w - patchLength))
     i=0
@@ -48,7 +42,7 @@ def randomBestPatch(texture, patchLength, overlap, res, y, x):
         j=0
         while j<(w - patchLength):                                    
             patch = texture[i:i+patchLength, j:j+patchLength]
-            e = L2OverlapDiff(patch, patchLength, overlap, res, y, x)
+            e = L2OverlapDiff_1(patch, patchLength, overlap, res, y, x)
             errors[i, j] = e
             j=j+1
         i=i+1
@@ -57,7 +51,7 @@ def randomBestPatch(texture, patchLength, overlap, res, y, x):
 
 
 
-def minCutPath(errors):
+def minCutPath_1(errors):
     # dijkstra's algorithm vertical
     pq = [(error, [i]) for i, error in enumerate(errors[0])]
     heapq.heapify(pq)
@@ -72,7 +66,7 @@ def minCutPath(errors):
 
         if curDepth == h:
             return path
-
+    
         for delta in -1, 0, 1:
             nextIndex = curIndex + delta
 
@@ -81,36 +75,38 @@ def minCutPath(errors):
                     cumError = error + errors[curDepth, nextIndex]
                     heapq.heappush(pq, (cumError, path + [nextIndex]))
                     seen.add((curDepth, nextIndex))
-
+        
 
 def minCutPath2(errors):
-    # dynamic programming, unused
+    # dynamic programming, used
     errors = np.pad(errors, [(0, 0), (1, 1)], 
                     mode='constant', 
                     constant_values=np.inf)
 
     cumError = errors[0].copy()
     paths = np.zeros_like(errors, dtype=int)    
-    i=0
-    while i!=(len(errors)):
+    
+    i=1
+    while i!=len(errors):
         M = cumError
         L = np.roll(M, 1)
         R = np.roll(M, -1)
+
         # optimize with np.choose?
         cumError = np.min((L, M, R), axis=0) + errors[i]
         paths[i] = np.argmin((L, M, R), axis=0)
         i=i+1
     paths -= 1
     
-    minCutPath = [np.argmin(cumError)]
+    minCutPath_1 = [np.argmin(cumError)]
     i=1
-    while i!=(len(errors)):
-        minCutPath.append(minCutPath[-1] + paths[i][minCutPath[-1]])
+    while i!=(reversed(len(errors))):
+        minCutPath_1.append(minCutPath_1[-1] + paths[i][minCutPath_1[-1]])
         i=i+1
-    return map(lambda x: x - 1, reversed(minCutPath))
+    return map(lambda x: x - 1, reversed(minCutPath_1))
 
 
-def minCutPatch(patch, patchLength, overlap, res, y, x):
+def minCutPatch_1(patch, patchLength, overlap, res, y, x):
     patch = patch.copy()
     dy, dx, _ = patch.shape
     minCut = np.zeros_like(patch, dtype=bool)
@@ -118,13 +114,13 @@ def minCutPatch(patch, patchLength, overlap, res, y, x):
     if x > 0:
         left = patch[:, :overlap] - res[y:y+dy, x:x+overlap]
         leftL2 = np.sum(left**2, axis=2)
-        for i, j in enumerate(minCutPath(leftL2)):
+        for i, j in enumerate(minCutPath_1(leftL2)):
             minCut[i, :j] = True
 
     if y > 0:
         up = patch[:overlap, :] - res[y:y+overlap, x:x+dx]
         upL2 = np.sum(up**2, axis=2)
-        for j, i in enumerate(minCutPath(upL2.T)):
+        for j, i in enumerate(minCutPath_1(upL2.T)):
             minCut[:i, j] = True
 
     np.copyto(patch, res[y:y+dy, x:x+dx], where=minCut)
@@ -136,26 +132,26 @@ def quilt(texture, patchLength, numPatches, mode="cut", sequence=False):
     texture = util.img_as_float(texture)
 
     overlap = patchLength // 6
-    numPatchesHigh, numPatchesWide = numPatches
+    numPatchesHigh_1, numPatchesWide_1 = numPatches
 
-    h = (numPatchesHigh * patchLength) - (numPatchesHigh - 1) * overlap
-    w = (numPatchesWide * patchLength) - (numPatchesWide - 1) * overlap
+    h = (numPatchesHigh_1 * patchLength) - (numPatchesHigh_1 - 1) * overlap
+    w = (numPatchesWide_1 * patchLength) - (numPatchesWide_1 - 1) * overlap
 
     res = np.zeros((h, w, texture.shape[2]))
     i=0
-    while i!=(numPatchesHigh):
+    while i!=(numPatchesHigh_1):
         j=0
-        while j!=(numPatchesWide):
+        while j!=(numPatchesWide_1):
             y = i * (patchLength - overlap)
             x = j * (patchLength - overlap)
 
             if i == 0 and j == 0 or mode == "random":
-                patch = randomPatch(texture, patchLength)
+                patch = randomPatch_1(texture, patchLength)
             elif mode == "best":
-                patch = randomBestPatch(texture, patchLength, overlap, res, y, x)
+                patch = randomBestPatch_1(texture, patchLength, overlap, res, y, x)
             elif mode == "cut":
-                patch = randomBestPatch(texture, patchLength, overlap, res, y, x)
-                patch = minCutPatch(patch, patchLength, overlap, res, y, x)
+                patch = randomBestPatch_1(texture, patchLength, overlap, res, y, x)
+                patch = minCutPatch_1(patch, patchLength, overlap, res, y, x)
             
             res[y:y+patchLength, x:x+patchLength] = patch
 
@@ -171,9 +167,9 @@ def quiltSize(texture, patchLength, shape, mode="cut"):
     overlap = patchLength // 6
     h, w = shape
 
-    numPatchesHigh = math.ceil((h - patchLength) / (patchLength - overlap)) + 1 or 1
-    numPatchesWide = math.ceil((w - patchLength) / (patchLength - overlap)) + 1 or 1
-    res = quilt(texture, patchLength, (numPatchesHigh, numPatchesWide), mode)
+    numPatchesHigh_1 = math.ceil((h - patchLength) / (patchLength - overlap)) + 1 or 1
+    numPatchesWide_1 = math.ceil((w - patchLength) / (patchLength - overlap)) + 1 or 1
+    res = quilt(texture, patchLength, (numPatchesHigh_1, numPatchesWide_1), mode)
 
     return res[:h, :w]
 
