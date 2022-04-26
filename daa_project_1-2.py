@@ -76,7 +76,7 @@ def minCutPath(errors):
         for delta in -1, 0, 1:
             nextIndex = curIndex + delta
 
-            if 0 <= nextIndex < w:
+            if 0 <= nextIndex and nextIndex < w:
                 if (curDepth, nextIndex) not in seen:
                     cumError = error + errors[curDepth, nextIndex]
                     heapq.heappush(pq, (cumError, path + [nextIndex]))
