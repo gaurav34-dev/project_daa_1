@@ -128,7 +128,7 @@ def minCutPatch_1(patch, patchLengthsegment, overlap, res, y1, x1):
 
     return patch
 
-
+          #Quilting
 def quilt(texture_portion, patchLengthsegment, numPatches, mode="cut", sequence=False):
     texture_portion = util.img_as_float(texture_portion)
 
@@ -163,7 +163,7 @@ def quilt(texture_portion, patchLengthsegment, numPatches, mode="cut", sequence=
         i=i+1
     return res
 
-
+           #Find out Quilt Size
 def quiltSize(texture_portion, patchLengthsegment, shape, mode="cut"):
     overlap = patchLengthsegment // 6
     h1, w1 = shape
