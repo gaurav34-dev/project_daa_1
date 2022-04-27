@@ -31,6 +31,5 @@ Then, by tiling small chunks of the input image, we create a synthesized image.
 
 (c) We follow the same steps as in (c), but we also cut along the minimum error border.
 
-reference-https://www.youtube.com/watch?v=QMiCNJofJUk
+reference-https://people.eecs.berkeley.edu/~efros/research/quilting/quilting.pdf
 
-          https://people.eecs.berkeley.edu/~efros/research/quilting/quilting.pdf
