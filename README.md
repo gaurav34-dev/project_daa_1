@@ -1,16 +1,17 @@
 # Image Quilting for Texture Synthesis 
 
 Image quilting is a technique for stitching together portions of existing images to create new images.
+We describe a simple image-based method for creating unique visual appearances that involves sewing together small pieces of existing images to create a new image. This is referred to as image quilting.
 It has applications of 
 
 1) Texture synthesis is the process of producing big textures from small real-world data.
-
 
 >The approach works with photos directly and does not require 3D data.
 
 We'll use Python and NumPy to implement texture synthesis in this repository.
 
 ## Texture Synthesis
+Texture synthesis is a different approach of making textures. Visual recurrence is minimized since synthetic textures can be generated in any scale. By appropriately addressing the boundary requirements, texture synthesis can also yield tileable images. Image de-noising, occlusion fill-in, and compression are only a few examples of texture synthesis's potential applications.
 
 An input image and a block size are used to start the process:
 
